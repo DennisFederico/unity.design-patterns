@@ -85,7 +85,6 @@ public class Idle : State {
 }
 
 public class Patrol : State {
-
     int currentIndex = -1;
 
     public Patrol(GameObject _npc, NavMeshAgent _agent, Animator _anim, Transform _player) : base(_npc, _agent, _anim, _player) {
@@ -95,7 +94,14 @@ public class Patrol : State {
     }
 
     public override void Enter() {
-        currentIndex = 0;
+        float lastDist = Mathf.Infinity;
+        for (int i = 0; i < GameEnvironment.Singleton.Checkpoints.Count; i++) {
+            float distance = Vector3.Distance(npc.transform.position, GameEnvironment.Singleton.Checkpoints[i].transform.position);
+            if (distance < lastDist) {
+                currentIndex = i -1;
+                lastDist = distance;
+            }
+        }
         anim.SetTrigger("isWalking");
         base.Enter();
     }
