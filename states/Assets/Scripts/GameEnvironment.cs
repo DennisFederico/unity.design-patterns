@@ -9,6 +9,8 @@ public sealed class GameEnvironment {
 
     public List<GameObject> Checkpoints { get { return checkpoints; } }
 
+    public GameObject safeLocation;
+
     public static GameEnvironment Singleton {
         get {
             if (instance == null) {
